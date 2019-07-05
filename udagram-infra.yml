@@ -1,0 +1,82 @@
+Description: >
+  Wally Thornton
+  This template deploys the entire environment for Udacity's "Deploy a High-Availability Web App" project
+
+Parameters:
+
+  EnvironmentName:
+    Description: udagram
+    Type: String
+
+  VpcCIDR:
+    Description: Enter the IP range
+    Type: String
+    Default: 10.0.0.0/16
+
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+        CidrBlock: !Ref VpcCIDR
+        EnableDnsHostnames: true
+        Tags:
+            - Key: Name
+              Value: !Ref EnvironmentName
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+        Tags:
+          - Key: Name
+            Value: !Ref EnvironmentName
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+
+  PublicSubnet1:
+      Type: AWS::EC2::Subnet
+      Properties:
+          VpcId: !Ref VPC
+          AvailabilityZone: !Select [ 0, !GetAZ's '' ]
+          CirderBlock: !Ref PublicSubnet1CIDR
+          MapPublicIpOnLaunch: false
+          Tags: 
+              -   Key: Name
+                  Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
+
+  PublicSubnet2:
+      Type: AWS::EC2::Subnet
+      Properties:
+          VpcId: !Ref VPC
+          AvailabilityZone: !Select [ 1, !GetAZ's '' ]
+          CirderBlock: !Ref PublicSubnet1CIDR
+          MapPublicIpOnLaunch: false
+          Tags: 
+              -   Key: Name
+                  Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
+
+  PrivateSubnet1:
+      Type: AWS::EC2::Subnet
+      Properties:
+          VpcId: !Ref VPC
+          AvailabilityZone: !Select [ 0, !GetAZ's '' ]
+          CirderBlock: !Ref PrivateSubnet1CIDR
+          MapPublicIpOnLaunch: false
+          Tags: 
+              -   Key: Name
+                  Value: !Sub ${EnvironmentName} Private Subnet (AZ1)
+
+  PrivateSubnet2:
+      Type: AWS::EC2::Subnet
+      Properties:
+          VpcId: !Ref VPC
+          AvailabilityZone: !Select [ 1, !GetAZ's '' ]
+          CirderBlock: !Ref PrivateSubnet1CIDR
+          MapPublicIpOnLaunch: false
+          Tags: 
+              -   Key: Name
+                  Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
