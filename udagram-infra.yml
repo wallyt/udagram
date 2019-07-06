@@ -13,6 +13,26 @@ Parameters:
     Type: String
     Default: 10.0.0.0/16
 
+  PublicSubnet1CIDR:
+    Description: IP range for the subnet
+    Type: String
+    Default: 10.0.0.0/24
+
+  PublicSubnet2CIDR:
+    Description: IP range for the subnet
+    Type: String
+    Default: 10.0.1.0/24
+    
+  PrivateSubnet1CIDR:
+    Description: IP range for the subnet
+    Type: String
+    Default: 10.0.2.0/24
+
+  PrivateSubnet2CIDR:
+    Description: IP range for the subnet
+    Type: String
+    Default: 10.0.3.0/24
+    
 
 Resources:
   VPC:
@@ -38,45 +58,45 @@ Resources:
       VpcId: !Ref VPC
 
   PublicSubnet1:
-      Type: AWS::EC2::Subnet
-      Properties:
-          VpcId: !Ref VPC
-          AvailabilityZone: !Select [ 0, !GetAZ's '' ]
-          CirderBlock: !Ref PublicSubnet1CIDR
-          MapPublicIpOnLaunch: false
-          Tags: 
-              -   Key: Name
-                  Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, !GetAZ's '' ]
+      CidrBlock: !Ref PublicSubnet1CIDR
+      MapPublicIpOnLaunch: false
+      Tags: 
+        -   Key: Name
+            Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
 
   PublicSubnet2:
-      Type: AWS::EC2::Subnet
-      Properties:
-          VpcId: !Ref VPC
-          AvailabilityZone: !Select [ 1, !GetAZ's '' ]
-          CirderBlock: !Ref PublicSubnet1CIDR
-          MapPublicIpOnLaunch: false
-          Tags: 
-              -   Key: Name
-                  Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, !GetAZ's '' ]
+      CidrBlock: !Ref PublicSubnet1CIDR
+      MapPublicIpOnLaunch: false
+      Tags: 
+        -   Key: Name
+            Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
 
   PrivateSubnet1:
-      Type: AWS::EC2::Subnet
-      Properties:
-          VpcId: !Ref VPC
-          AvailabilityZone: !Select [ 0, !GetAZ's '' ]
-          CirderBlock: !Ref PrivateSubnet1CIDR
-          MapPublicIpOnLaunch: false
-          Tags: 
-              -   Key: Name
-                  Value: !Sub ${EnvironmentName} Private Subnet (AZ1)
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, !GetAZ's '' ]
+      CidrBlock: !Ref PrivateSubnet1CIDR
+      MapPublicIpOnLaunch: false
+      Tags: 
+        -   Key: Name
+            Value: !Sub ${EnvironmentName} Private Subnet (AZ1)
 
   PrivateSubnet2:
-      Type: AWS::EC2::Subnet
-      Properties:
-          VpcId: !Ref VPC
-          AvailabilityZone: !Select [ 1, !GetAZ's '' ]
-          CirderBlock: !Ref PrivateSubnet1CIDR
-          MapPublicIpOnLaunch: false
-          Tags: 
-              -   Key: Name
-                  Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, !GetAZ's '' ]
+      CidrBlock: !Ref PrivateSubnet1CIDR
+      MapPublicIpOnLaunch: false
+      Tags: 
+        -   Key: Name
+            Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
