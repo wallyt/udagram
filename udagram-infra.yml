@@ -206,7 +206,7 @@ Outputs:
     Description: Public routing
     Value: !Ref PublicRouteTable
     Export:
-      Name: !Sub ${PublicRouteTable}-PUB-RT
+      Name: !Sub ${EnvironmentName}-PUB-RT
 
   VPCPrivateRouteTable1:
     Description: Private routing AZ1
@@ -226,7 +226,7 @@ Outputs:
     Export:
       Name: !Sub ${EnvironmentName}-Pub-Nets
 
-  Private Subnets:
+  PrivateSubnets:
     Description: List of the private subnets
     Value: !Join [",", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2 ]]
     Export:
