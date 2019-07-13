@@ -224,10 +224,10 @@ Outputs:
     Description: List of the public subnets
     Value: !Join [",", [ !Ref PublicSubnet1, !Ref PublicSubnet2 ]]
     Export:
-      Name: !Sub ${EnvironmentName}-Pub-Nets
+      Name: !Sub ${EnvironmentName}-PUB-NETS
 
   PrivateSubnets:
     Description: List of the private subnets
     Value: !Join [",", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2 ]]
     Export:
-      Name: !Sub ${EnvironmentName}-Priv-Nets
+      Name: !Sub ${EnvironmentName}-PRIV-NETS
