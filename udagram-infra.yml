@@ -1,6 +1,6 @@
 Description: >
   Wally Thornton
-  This template deploys the entire environment for Udacity's "Deploy a High-Availability Web App" project
+  This template deploys the infrastructure for Udacity's "Deploy a High-Availability Web App" project
 
 Parameters:
 

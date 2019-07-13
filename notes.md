@@ -4,4 +4,4 @@
 `chmod 754 *name*`
 
 ### CLI execution of shell script files
-`./create.sh *stack-name* udagram-infra.yml infra-parameters.json`
+`./create.sh testUdagram udagram-infra.yml infra-parameters.json`
