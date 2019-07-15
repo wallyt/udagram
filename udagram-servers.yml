@@ -44,6 +44,10 @@ Resources:
         FromPort: 80
         ToPort: 80
         CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
       - IpProtocol: tcp
         FromPort: 0
@@ -56,16 +60,19 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          apt-get update -y
-          apt-get install unzip awscli -y
-          apt-get install apache2 -y
-          sudo systemctl start apache2.service
+          sudo yum update -y
+          sudo yum install -y httpd24
+          sudo service httpd start
+          sudo groupadd www
+          sudo usermod -a -G www ec2-user
           cd /var/www/html
-          aws s3 cp s3://udagram-thornton/index.html
-      ImageId: ami-082b5a644766e0e6f
+          aws s3 cp s3://udagram-thornton/index.html /var/www/html
+      ImageId: ami-0f2176987ee50226e
+      IamInstanceProfile: EC2-S3Read
+      KeyName: udagram-key
       SecurityGroups:
       - Ref: WebServerSecGroup
-      InstanceType: t3.small
+      InstanceType: t2.medium
       BlockDeviceMappings:
       - DeviceName: "/dev/sdk"
         Ebs:
@@ -76,7 +83,7 @@ Resources:
     Properties:
       VPCZoneIdentifier:
       - Fn::ImportValue:
-          !Sub "${EnvironmentName}-PRIV-NETS"
+          !Sub "${EnvironmentName}-PUB-NETS"
       LaunchConfigurationName: 
         Ref: WebAppLaunchConfig
       MinSize: '4'
@@ -120,10 +127,10 @@ Resources:
   WebAppTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      HealthCheckIntervalSeconds: 30
+      HealthCheckIntervalSeconds: 10
       HealthCheckPath: /
       HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 10
+      HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       Port: 80
       Protocol: HTTP
