@@ -44,10 +44,6 @@ Resources:
         FromPort: 80
         ToPort: 80
         CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
       - IpProtocol: tcp
         FromPort: 0
@@ -69,7 +65,6 @@ Resources:
           aws s3 cp s3://udagram-thornton/index.html /var/www/html
       ImageId: ami-0f2176987ee50226e
       IamInstanceProfile: EC2-S3Read
-      KeyName: udagram-key
       SecurityGroups:
       - Ref: WebServerSecGroup
       InstanceType: t2.medium
@@ -83,7 +78,7 @@ Resources:
     Properties:
       VPCZoneIdentifier:
       - Fn::ImportValue:
-          !Sub "${EnvironmentName}-PUB-NETS"
+          !Sub "${EnvironmentName}-PRIV-NETS"
       LaunchConfigurationName: 
         Ref: WebAppLaunchConfig
       MinSize: '4'
